@@ -10,7 +10,7 @@
     </insert>
 
     <select id="queryAccountName" resultType="String">
-        select name from account;
+        select DISTINCT name from account;
     </select>
 
     <select id="queryAccountInfo" parameterType="String" resultType="service.AccountInfo">

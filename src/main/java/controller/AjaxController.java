@@ -23,8 +23,8 @@ public class AjaxController {
     @Autowired
     private AccountMapper accountMapper;
 
-    @RequestMapping(value = "/{bean}", method = RequestMethod.POST)
-    public void addAccount(@PathVariable String bean, HttpServletRequest request, HttpServletResponse response) throws IOException {
+    @RequestMapping(value = "/{bean}", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+    public void addAccount(@PathVariable String bean, HttpServletRequest request, HttpServletResponse response) {
         Map<String, Object> returnValue;
         if (bean.equals("add")) {
             returnValue = OperAdd(request.getParameterMap());

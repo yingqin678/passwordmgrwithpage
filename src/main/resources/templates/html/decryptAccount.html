@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myapp">
+<head>
+    <meta charset="UTF-8">
+    <title>decrypt account</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.2/angular.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.2/angular-sanitize.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.2/angular-resource.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.2/angular-route.js"></script>
+    <script src="https://unpkg.com/ng-table@2.0.2/bundles/ng-table.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+</head>
+<body>
+<div ng-controller="MyDairy" style="font: normal 100% Helvetica, Arial, sans-serif;">
+<div style=" float: left;margin-top: 10px;width: 100%;">
+    <div>
+        <p style="margin-left: 10px;margin-bottom: 0px;float: left;margin-top: 0px;">密码:</p>
+        <input ng-model="password" style="width: 20%;margin-left: 10px;margin-right: 10px;float: left;" placeholder="密码密文"/>
+        <p style="margin-left: 10px;margin-bottom: 0px;float: left;margin-top: 0px;">密钥:</p>
+        <input ng-model="keyword" style="width: 20%;margin-left: 10px;margin-right: 10px;float: left;" placeholder="密钥"/>
+    </div>
+</div>
+<div style=" float: left;margin-top: 10px;width: 100%;p: 10px;">
+    <button enable="!hasDecrypt" ng-click="decrypt()">解密</button>
+    <button ng-click="init()">重置</button>
+</div>
+<div style=" float: left;margin-top: 10px;width: 100%;p: 10px;">
+    <p>{{originPassword}}</p>
+</div>
+
+</div>
+<script>
+var app = angular.module("myapp", ['ngTable']).controller("MyDairy",
+    function($scope, $timeout, NgTableParams) {
+    $scope.init = function () {
+        $scope.password = "";
+        $scope.keyword = "";
+        $scope.hasDecrypt=false;
+    };
+    $scope.decrypt = function ()  {
+        var temppassword = "";
+        var keyDecrypt = $scope.keyword;
+        var keyLength = keyDecrypt.length;
+
+
+        $scope.originPassword = $scope.decryptAlgor($scope.password, keyDecrypt);
+        $scope.hasDecrypt = true;
+    };
+    $scope.decryptAlgor = function (encryptpass, key) {
+        var temppassword = "";
+
+        var keyIndex = 0;
+        var keyLength = key.length;
+        for (var i = 0; i < encryptpass.length; i++) {
+            var encryptType = encryptpass.charAt(i);
+            switch (encryptType) {
+                //0：密文为原始字符   1：密文为原始字符+密钥字符后的结果  2：密文为原始字符-密钥字符后的结果   3：密文为密钥字符-原始字符后的结果
+                case '0' : {
+                    temppassword += encryptpass.charAt(i + 1);
+                    break;
+                }
+                case '1' : {
+                    temppassword += String.fromCharCode(encryptpass.charAt(i + 1).charCodeAt() - parseInt(key.charAt(keyIndex % keyLength)));
+                    break;
+                }
+                case '2' : {
+                    temppassword += String.fromCharCode(encryptpass.charAt(i + 1).charCodeAt() + parseInt(key.charAt(keyIndex % keyLength)));
+                    break;
+                }
+                case '3' : {
+                    temppassword += String.fromCharCode(parseInt(key.charAt(keyIndex % keyLength)) - encryptpass.charAt(i + 1).charCodeAt());
+                    break;
+                }
+                default : {
+                    temppassword = "failed to decrypt";
+                    return temppassword;
+                }
+            }
+
+            i ++;
+            keyIndex ++;
+        }
+
+        return temppassword;
+    };
+    $scope.init();
+});
+</script>
+</body>
+</html>
