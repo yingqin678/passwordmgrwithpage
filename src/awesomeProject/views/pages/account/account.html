@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myapp">
+<head>
+    <meta charset="UTF-8">
+    <title>account</title>
+    <!--<link rel="stylesheet" href="../../css/ng-table.min.css">-->
+    <link rel="stylesheet" href="https://unpkg.com/ng-table@2.0.2/bundles/ng-table.min.css">
+    <!--<link rel="stylesheet" href="../../css/bootstrap.min.css">-->
+    <link rel="stylesheet" href="../../static/js/bootstrap.min.css">
+    <!--<script src="../../js/angular.js"></script>-->
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.2/angular.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.2/angular-sanitize.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.2/angular-resource.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.2/angular-route.js"></script>
+    <script src="https://unpkg.com/ng-table@2.0.2/bundles/ng-table.min.js"></script>
+    <script src="../../static/js/controller/item/item.js"></script>
+    <script src="../../static/js/jquery-2.0.3.min.js"></script>
+    <!--<script src="../../js/ng-table.min.js"></script>-->
+</head>
+<body>
+<div ng-controller="MyDairy" style="margin-left:10px">
+    <div>
+        <p style="margin-top: 10px;">账号管理</p>
+        <div>
+            <h5>{{clock}}</h5>
+        </div>
+        <div>
+            <p>添加:</p>
+            <div>
+                <p style="margin-left: 30px;margin-top: 0px;float: left;margin-bottom: 0px;">网站名：</p>
+                <input ng-model="savename" style="width: 15%;margin-left: 10px;margin-right: 10px;float: left;" placeholder="输入app名或网站名"/>
+
+                <p style="margin-top: 0px;float: left;margin-bottom: 0px;">账号名：</p>
+                <input ng-model="saveaccountname" style="width: 15%;margin-left: 10px;margin-right: 10px;float: left;" placeholder="输入账号名"/>
+
+                <p style="margin-left: 10px;margin-bottom: 0px;float: left;margin-top: 0px;">密码:</p>
+                <input ng-model="savepassword" style="width: 15%;margin-left: 10px;margin-right: 10px;float: left;" placeholder="密码"/>
+
+                <p style="margin-left: 10px;margin-bottom: 0px;float: left;margin-top: 0px;">密钥:</p>
+                <input ng-model="savekey" style="width: 15%;margin-left: 10px;margin-right: 10px;float: left;" placeholder="密钥，如12345abc"/>
+            </div>
+        </div>
+        <div style=" float: left;margin-top: 10px;width: 100%;p: 10px;">
+            <button ng-click="addAccount()">添加</button>
+            <button ng-click="cancel()">取消</button>
+        </div>
+        <div style=" float: left;margin-top: 20px;width: 100%;">
+            <p style=" float: left;margin-right: 20px;">网站名:</p>
+            <select ng-init="selectedName = names[0]" ng-model="selectedName" ng-options="x for x in names" ng-change="queryAccountInfo()">
+            </select>
+        </div>
+        <div style=" float: left;margin-top: 20px;width: 100%;">
+            <p style="float:left;margin-right: 20px;">用户名:</p>
+            <select ng-init="selectedUser = usernames[0]" ng-model="selectedUser" ng-options="x for x in usernames" ng-change="queryuserpass()">
+            </select>
+        </div>
+        <div>
+            <p style="margin-left: 10px;margin-bottom: 0px;float: left;margin-top: 0px;">密码密文:</p>
+            <input ng-model="epassword" style="width: 15%;margin-left: 10px;margin-right: 10px;float: left;" placeholder="密码"/>
+        </div>
+        <div>
+            <p style="margin-left: 30px;margin-top: 0px;float: left;margin-bottom: 0px;">密钥：</p>
+            <input ng-model="commonkey" style="width: 20%;margin-left: 10px;margin-right: 10px;float: left;" placeholder="密钥"/>
+        </div>
+        <div style=" float: left;margin-top: 10px;width: 100%;p: 10px;">
+            <button ng-click="decrypt()" >解密</button>
+        </div>
+        <div>
+            <p style="margin-left: 10px;margin-bottom: 0px;float: left;margin-top: 0px;">密码密文:</p>
+            <input ng-model="password" style="width: 15%;margin-left: 10px;margin-right: 10px;float: left;" placeholder="密码"/>
+        </div>
+    </div>
+</div>
+</body>
+</html>
