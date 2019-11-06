@@ -101,8 +101,8 @@ func main() {
 		panic(err)
 	}
 
+	appContent = map[string]account{}
 	if len(content) > 0 {
-		appContent = map[string]account{}
 		err := json.Unmarshal(content, &appContent)
 		if err != nil {
 			panic(err)
@@ -110,7 +110,7 @@ func main() {
 	}
 
 
-	http.Handle("/pages/", http.StripPrefix("/pages/", http.FileServer(http.Dir("views"))));
+	http.Handle("/pages/", http.StripPrefix("/pages/", http.FileServer(assetFS())));
 	http.HandleFunc("/rest/", sayhelloName) //设置访问的路由
 	err = http.ListenAndServe(":9090", nil) //设置监听的端口
 	if err != nil {
