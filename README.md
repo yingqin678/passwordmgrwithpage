@@ -8,10 +8,16 @@ src/awesomeProject
 ### 证书生成
 ```
 https://www.jianshu.com/p/6c08a3ca2638
+
+bin目录下管理员执行：(参考https://www.jianshu.com/p/6c08a3ca2638)
+openssl genrsa -out server.key 2048
+openssl req -new -x509 -sha256 -key server.key -out server.crt -days 3650
+key与crt文件放在exe同级目录下
 ```
+
 ### 编译
 ```
-第一次运行：
+第一次运行：(参考https://github.com/elazarl/go-bindata-assetfs#readme)
  go get github.com/go-bindata/go-bindata/...
  go get github.com/elazarl/go-bindata-assetfs/...
 
